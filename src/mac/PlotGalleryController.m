@@ -47,7 +47,7 @@
 
 	[imageBrowser setDelegate:self];
 	[imageBrowser setDataSource:self];
-	[imageBrowser setCellsStyleMask:IKCellsStyleShadowed | IKCellsStyleTitled | IKCellsStyleSubtitled];
+	[imageBrowser setCellsStyleMask:IKCellsStyleShadowed | IKCellsStyleTitled ]; //| IKCellsStyleSubtitled];
 
 	[imageBrowser reloadData];
 

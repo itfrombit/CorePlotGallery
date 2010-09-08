@@ -18,33 +18,33 @@
 		4F22FFA812342D7C006BF615 /* VerticalBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22FFA312342D7C006BF615 /* VerticalBarChart.m */; };
 		4F22FFAF12342DB1006BF615 /* PlotGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22FFAC12342DB1006BF615 /* PlotGallery.m */; };
 		4F22FFB012342DB1006BF615 /* PlotItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22FFAE12342DB1006BF615 /* PlotItem.m */; };
-		4F22FFD11234306C006BF615 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22FFC812342FA0006BF615 /* CorePlot.framework */; };
-		4F22FFDC12343185006BF615 /* CorePlot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22FFC812342FA0006BF615 /* CorePlot.framework */; };
 		4F22FFE8123431D2006BF615 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22FFE7123431D2006BF615 /* Quartz.framework */; };
 		4F35EBBD12360D89007C3389 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4F35EBBC12360D89007C3389 /* Icon.icns */; };
 		4F35EBF7123611E3007C3389 /* PlotGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F35EBF4123611E3007C3389 /* PlotGalleryController.m */; };
 		4F35EBF8123611E3007C3389 /* PlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F35EBF6123611E3007C3389 /* PlotView.m */; };
+		4F35EC3D1236AF0C007C3389 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F35EC271236AE6E007C3389 /* CorePlot.framework */; };
+		4FD17D741236B05400EBD263 /* CorePlot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4F35EC271236AE6E007C3389 /* CorePlot.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4F22FFC712342FA0006BF615 /* PBXContainerItemProxy */ = {
+		4F35EC261236AE6E007C3389 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4F22FFBE12342FA0006BF615 /* CorePlot.xcodeproj */;
+			containerPortal = 4F35EC1D1236AE6E007C3389 /* CorePlot.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = CorePlot;
 		};
-		4F22FFC912342FA0006BF615 /* PBXContainerItemProxy */ = {
+		4F35EC281236AE6E007C3389 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4F22FFBE12342FA0006BF615 /* CorePlot.xcodeproj */;
+			containerPortal = 4F35EC1D1236AE6E007C3389 /* CorePlot.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0730F600109492D800E95162;
 			remoteInfo = UnitTests;
 		};
-		4F22FFCB12342FB0006BF615 /* PBXContainerItemProxy */ = {
+		4F35EC371236AE91007C3389 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4F22FFBE12342FA0006BF615 /* CorePlot.xcodeproj */;
+			containerPortal = 4F35EC1D1236AE6E007C3389 /* CorePlot.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = CorePlot;
@@ -58,7 +58,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4F22FFDC12343185006BF615 /* CorePlot.framework in Copy Frameworks */,
+				4FD17D741236B05400EBD263 /* CorePlot.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -91,13 +91,13 @@
 		4F22FFAC12342DB1006BF615 /* PlotGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlotGallery.m; path = src/shared/PlotGallery.m; sourceTree = "<group>"; };
 		4F22FFAD12342DB1006BF615 /* PlotItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlotItem.h; path = src/shared/PlotItem.h; sourceTree = "<group>"; };
 		4F22FFAE12342DB1006BF615 /* PlotItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlotItem.m; path = src/shared/PlotItem.m; sourceTree = "<group>"; };
-		4F22FFBE12342FA0006BF615 /* CorePlot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePlot.xcodeproj; path = "../3rd/core-plot/framework/CorePlot.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		4F22FFE7123431D2006BF615 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		4F35EBBC12360D89007C3389 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = src/mac/Icon.icns; sourceTree = "<group>"; };
 		4F35EBF3123611E3007C3389 /* PlotGalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlotGalleryController.h; path = src/mac/PlotGalleryController.h; sourceTree = "<group>"; };
 		4F35EBF4123611E3007C3389 /* PlotGalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlotGalleryController.m; path = src/mac/PlotGalleryController.m; sourceTree = "<group>"; };
 		4F35EBF5123611E3007C3389 /* PlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlotView.h; path = src/mac/PlotView.h; sourceTree = "<group>"; };
 		4F35EBF6123611E3007C3389 /* PlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlotView.m; path = src/mac/PlotView.m; sourceTree = "<group>"; };
+		4F35EC1D1236AE6E007C3389 /* CorePlot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePlot.xcodeproj; path = "../core-plot/framework/CorePlot.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		8D1107320486CEB800E47090 /* Plot Gallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plot Gallery.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F22FFD11234306C006BF615 /* CorePlot.framework in Frameworks */,
+				4F35EC3D1236AF0C007C3389 /* CorePlot.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				4F22FFE8123431D2006BF615 /* Quartz.framework in Frameworks */,
 			);
@@ -158,7 +158,7 @@
 		29B97314FDCFA39411CA2CEA /* Plot Gallery-Mac */ = {
 			isa = PBXGroup;
 			children = (
-				4F22FFBE12342FA0006BF615 /* CorePlot.xcodeproj */,
+				4F35EC1D1236AE6E007C3389 /* CorePlot.xcodeproj */,
 				4F22FF9812342D54006BF615 /* Shared */,
 				080E96DDFE201D6D7F000001 /* Mac */,
 				4F22FF9912342D5F006BF615 /* Plots */,
@@ -227,11 +227,11 @@
 			name = Plots;
 			sourceTree = "<group>";
 		};
-		4F22FFBF12342FA0006BF615 /* Products */ = {
+		4F35EC1E1236AE6E007C3389 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F22FFC812342FA0006BF615 /* CorePlot.framework */,
-				4F22FFCA12342FA0006BF615 /* UnitTests.octest */,
+				4F35EC271236AE6E007C3389 /* CorePlot.framework */,
+				4F35EC291236AE6E007C3389 /* UnitTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -251,7 +251,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				4F22FFCC12342FB0006BF615 /* PBXTargetDependency */,
+				4F35EC381236AE91007C3389 /* PBXTargetDependency */,
 			);
 			name = "Plot Gallery-Mac";
 			productInstallPath = "$(HOME)/Applications";
@@ -271,8 +271,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 4F22FFBF12342FA0006BF615 /* Products */;
-					ProjectRef = 4F22FFBE12342FA0006BF615 /* CorePlot.xcodeproj */;
+					ProductGroup = 4F35EC1E1236AE6E007C3389 /* Products */;
+					ProjectRef = 4F35EC1D1236AE6E007C3389 /* CorePlot.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -283,18 +283,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4F22FFC812342FA0006BF615 /* CorePlot.framework */ = {
+		4F35EC271236AE6E007C3389 /* CorePlot.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CorePlot.framework;
-			remoteRef = 4F22FFC712342FA0006BF615 /* PBXContainerItemProxy */;
+			remoteRef = 4F35EC261236AE6E007C3389 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4F22FFCA12342FA0006BF615 /* UnitTests.octest */ = {
+		4F35EC291236AE6E007C3389 /* UnitTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = UnitTests.octest;
-			remoteRef = 4F22FFC912342FA0006BF615 /* PBXContainerItemProxy */;
+			remoteRef = 4F35EC281236AE6E007C3389 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -334,10 +334,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4F22FFCC12342FB0006BF615 /* PBXTargetDependency */ = {
+		4F35EC381236AE91007C3389 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CorePlot;
-			targetProxy = 4F22FFCB12342FB0006BF615 /* PBXContainerItemProxy */;
+			targetProxy = 4F35EC371236AE91007C3389 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -368,7 +368,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/../3rd/core-plot/build/Debug\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/../core-plot/build/Debug\"/**";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -392,7 +392,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/../3rd/core-plot/build/Release\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/../core-plot/build/Release\"/**";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Plot_Gallery_Mac_Prefix.pch;

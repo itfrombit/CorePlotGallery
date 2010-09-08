@@ -23,6 +23,8 @@
 
 + (void)registerPlotItem:(id)item
 {
+	NSLog(@"registerPlotItem for class %@", [item class]);
+
 	Class itemClass = [item class];
 	
 	if (itemClass)
@@ -59,75 +61,121 @@
 		[defaultLayerHostingView release];
 		defaultLayerHostingView = nil;
 	}
-	
+
+	[cachedImage release];
+	cachedImage = nil;
+
 	[graphs removeAllObjects];
 }
 
 #ifdef __IPHONE_OS_VERSION_MIN_REQUIRED
 
+// There's a UIImage function to scale and orient an existing image,
+// but this will also work in pre-4.0 iOS
+
+- (CGImageRef)scaleCGImage:(CGImageRef)image toSize:(CGSize)size
+{
+	CGColorSpaceRef colorspace = CGImageGetColorSpace(image);
+	CGContextRef c = CGBitmapContextCreate(NULL, size.width, size.height,
+												 CGImageGetBitsPerComponent(image),
+												 CGImageGetBytesPerRow(image),
+												 colorspace,
+												 CGImageGetAlphaInfo(image));
+	CGColorSpaceRelease(colorspace);
+	
+	if (c == NULL)
+		return nil;
+	
+	CGContextDrawImage(c, CGRectMake(0, 0, size.width, size.height), image);
+	CGImageRef newImage = CGBitmapContextCreateImage(c);
+	CGContextRelease(c);
+	
+	return newImage;
+}
+
+
 - (UIImage*)image
 {
-	CGRect imageFrame = CGRectMake(0, 0, 800, 600);
-	
-	UIView* imageView = [[UIView alloc] initWithFrame:imageFrame];
-	
-	[self renderInView:imageView withTheme:nil];
-	[self reloadData];
+	if (cachedImage == nil)
+	{
+		CGRect imageFrame = CGRectMake(0, 0, 800, 600);
 
-	UIGraphicsBeginImageContext(imageView.bounds.size);
-		CGContextRef c = UIGraphicsGetCurrentContext();
-		CGContextGetCTM(c);
-		CGContextScaleCTM(c, 1, -1);
-		CGContextTranslateCTM(c, 0, -imageView.bounds.size.height);
-		[imageView.layer renderInContext:c];
-		UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
+		UIView* imageView = [[UIView alloc] initWithFrame:imageFrame];
+
+		[self renderInView:imageView withTheme:nil];
+		[self reloadData];
+
+		UIGraphicsBeginImageContext(imageView.bounds.size);
+			CGContextRef c = UIGraphicsGetCurrentContext();
+			CGContextGetCTM(c);
+			CGContextScaleCTM(c, 1, -1);
+			CGContextTranslateCTM(c, 0, -imageView.bounds.size.height);
+			[imageView.layer renderInContext:c];
+			//cachedImage = [UIGraphicsGetImageFromCurrentImageContext() retain];
+			UIImage* bigImage = UIGraphicsGetImageFromCurrentImageContext();
+			// iOS 4.0 only
+			//	cachedImage = [UIImage imageWithCGImage:[bigImage CGImage] 
+			//									  scale:0.125f
+			//								orientation:0.0f];
+
+			cachedImage = [[UIImage imageWithCGImage:
+							[self scaleCGImage:[bigImage CGImage]
+										toSize:CGSizeMake(100.0f, 75.0f)]] retain];
+		
+		UIGraphicsEndImageContext();
+
+		[imageView release];
+	}
+
 	
-	[imageView release];
-	
-	return image;
+	return cachedImage;
 }
 
 #else
 
 - (NSImage*)image
 {
-	CGRect imageFrame = CGRectMake(0, 0, 800, 600);
-	
-	NSView* imageView = [[NSView alloc] initWithFrame:NSRectFromCGRect(imageFrame)];
-	[imageView setWantsLayer:YES];
-	
-	[self renderInView:imageView withTheme:nil];
-	[self reloadData];
-	
-	CGSize boundsSize = imageFrame.size;
-	
-	NSBitmapImageRep *layerImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL 
-																		   pixelsWide:boundsSize.width 
-																		   pixelsHigh:boundsSize.height 
-																		bitsPerSample:8 
-																	  samplesPerPixel:4 
-																			 hasAlpha:YES 
-																			 isPlanar:NO 
-																	   colorSpaceName:NSCalibratedRGBColorSpace 
-																		  bytesPerRow:(NSInteger)boundsSize.width * 4 
-																		 bitsPerPixel:32];
-	NSGraphicsContext *bitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:layerImage];
-	CGContextRef context = (CGContextRef)[bitmapContext graphicsPort];
+	if (cachedImage == nil)
+	{
+		CGRect imageFrame = CGRectMake(0, 0, 800, 600);
+		
+		NSView* imageView = [[NSView alloc] initWithFrame:NSRectFromCGRect(imageFrame)];
+		[imageView setWantsLayer:YES];
+		
+		[self renderInView:imageView withTheme:nil];
+		[self reloadData];
+		
+		CGSize boundsSize = imageFrame.size;
+		
+		NSBitmapImageRep *layerImage = [[NSBitmapImageRep alloc] 
+										initWithBitmapDataPlanes:NULL 
+										pixelsWide:boundsSize.width 
+										pixelsHigh:boundsSize.height 
+										bitsPerSample:8 
+										samplesPerPixel:4 
+										hasAlpha:YES 
+										isPlanar:NO 
+										colorSpaceName:NSCalibratedRGBColorSpace 
+										bytesPerRow:(NSInteger)boundsSize.width * 4 
+										bitsPerPixel:32];
 
-	CGContextClearRect(context, CGRectMake(0.0, 0.0, boundsSize.width, boundsSize.height));
-	CGContextSetAllowsAntialiasing(context, true);
-	CGContextSetShouldSmoothFonts(context, false);
-	[imageView.layer renderInContext:context];
-	CGContextFlush(context);
-	
-    NSImage *image = [[[NSImage alloc] initWithSize:NSSizeFromCGSize(boundsSize)] autorelease];
-    [image addRepresentation:layerImage];
-	[layerImage release];
+		NSGraphicsContext *bitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:layerImage];
+		CGContextRef context = (CGContextRef)[bitmapContext graphicsPort];
 
-	[imageView release];
+		CGContextClearRect(context, CGRectMake(0.0, 0.0, boundsSize.width, boundsSize.height));
+		CGContextSetAllowsAntialiasing(context, true);
+		CGContextSetShouldSmoothFonts(context, false);
+		[imageView.layer renderInContext:context];
+		CGContextFlush(context);
+		
+		cachedImage = [[NSImage alloc] initWithSize:NSSizeFromCGSize(boundsSize)];
+		[cachedImage addRepresentation:layerImage];
+		[layerImage release];
+
+		[imageView release];
+	}
 	
-	return image;	
+	return cachedImage;	
 }
 	
 #endif
@@ -186,6 +234,8 @@
 
 - (void)dealloc
 {
+	[self killGraph];
+
 	[super dealloc];
 }
 
@@ -207,6 +257,8 @@
 
 - (id)imageRepresentation
 {
+	NSLog(@"NSPlotItem:imageRepresentation for class %@", [self class]);
+
 	return [self image];
 }
 

@@ -25,10 +25,20 @@
 	return self;
 }
 
+
 - (void)killGraph
 {
 	[super killGraph];
 }
+
+
+- (void)dealloc
+{
+	[plotData release];
+	
+	[super dealloc];
+}
+
 
 - (void)generateData
 {
@@ -42,16 +52,6 @@
 	}
 }
 
-#if 0
-- (void)setFrameSize:(NSSize)size
-{
-	float pieRadius = min((size.height - 40.0) / 2.0,
-						  (size.width - 80.0) / 2.0);
-	CPPieChart* graph = (CPPieChart*)[[graphs objectAtIndex:0] plotAtIndex:0];
-	
-	graph.pieRadius = max(pieRadius, 25.0);	
-}
-#endif
 
 - (void)renderInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme*)theme
 {
@@ -115,13 +115,6 @@
 	return newLayer;
 }
 
-
-- (void)dealloc
-{
-	[plotData release];
-	
-	[super dealloc];
-}
 
 
 -(void)pieChart:(CPPieChart *)plot sliceWasSelectedAtRecordIndex:(NSUInteger)index

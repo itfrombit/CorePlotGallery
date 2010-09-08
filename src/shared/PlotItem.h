@@ -26,6 +26,12 @@
 	CPLayerHostingView*		defaultLayerHostingView;
 	NSMutableArray*			graphs;
 	NSString*				title;
+
+#ifdef __IPHONE_OS_VERSION_MIN_REQUIRED
+	UIImage*				cachedImage;
+#else
+	NSImage*				cachedImage;
+#endif
 }
 
 @property (nonatomic, retain) CPLayerHostingView* defaultLayerHostingView;
