@@ -1,6 +1,6 @@
 //
 //  PlotGallery.m
-//  CPTestGallery
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 7/31/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
@@ -12,49 +12,42 @@
 
 static PlotGallery *sharedPlotGallery = nil;
 
-+ (PlotGallery*)sharedPlotGallery
++ (PlotGallery *)sharedPlotGallery
 {
-    @synchronized(self) 
-	{
-        if (sharedPlotGallery == nil) 
-		{
+    @synchronized(self) {
+        if (sharedPlotGallery == nil) {
             [[self alloc] init];
         }
     }
     return sharedPlotGallery;
 }
 
-+ (id)allocWithZone:(NSZone*)zone
++ (id)allocWithZone:(NSZone *)zone
 {
-    @synchronized(self)
-	{
-        if (sharedPlotGallery == nil)
-		{
+    @synchronized(self)	{
+        if (sharedPlotGallery == nil) {
             return[super allocWithZone:zone];
         }
     }
-	return sharedPlotGallery;
+    return sharedPlotGallery;
 }
 
 - (id)init
 {
-	Class thisClass = [self class];
-	@synchronized(thisClass) 
-	{
-		if (sharedPlotGallery == nil)
-		{
-			if (self = [super init])
-			{
-				sharedPlotGallery = self;
-				plotItems = [[NSMutableArray alloc] init];
-			}
-		}
-	}
-	
-	return sharedPlotGallery;
+    Class thisClass = [self class];
+    @synchronized(thisClass) {
+        if (sharedPlotGallery == nil) {
+            if (self = [super init]) {
+                sharedPlotGallery = self;
+                plotItems = [[NSMutableArray alloc] init];
+            }
+        }
+    }
+
+    return sharedPlotGallery;
 }
 
-- (id)copyWithZone:(NSZone*)zone
+- (id)copyWithZone:(NSZone *)zone
 {
     return self;
 }
@@ -78,19 +71,19 @@ static PlotGallery *sharedPlotGallery = nil;
     return self;
 }
 
-- (void)addPlotItem:(PlotItem*)plotItem
+- (void)addPlotItem:(PlotItem *)plotItem
 {
-	[plotItems addObject:plotItem];
+    [plotItems addObject:plotItem];
 }
 
 - (int)count
 {
-	return [plotItems count];
+    return [plotItems count];
 }
 
-- (PlotItem*)objectAtIndex:(int)index
+- (PlotItem *)objectAtIndex:(int)index
 {
-	return [plotItems objectAtIndex:index];
+    return [plotItems objectAtIndex:index];
 }
 
 @end

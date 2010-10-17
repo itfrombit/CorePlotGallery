@@ -1,6 +1,6 @@
 //
 //  Plot_Gallery_MacAppDelegate.m
-//  Plot Gallery-Mac
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 9/5/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
@@ -12,14 +12,13 @@
 
 @synthesize window;
 
-- (void)applicationDidFinishLaunching:(NSNotification*)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
 {
-	return YES;
+    return YES;
 }
 
 @end

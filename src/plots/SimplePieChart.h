@@ -1,6 +1,6 @@
 //
 //  SimplePieChart.h
-//  CPTestGallery
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 8/2/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
@@ -12,14 +12,14 @@
 @interface SimplePieChart : PlotItem <CPPlotSpaceDelegate,
 									  CPPlotDataSource>
 {
-    CPLayerAnnotation*				symbolTextAnnotation;
+    CPLayerAnnotation   *symbolTextAnnotation;
 	
-    CGFloat							xShift;
-    CGFloat							yShift;
-	
-    CGFloat							labelRotation;
-	
-	NSArray*						plotData;
+    CGFloat             xShift;
+    CGFloat             yShift;
+
+    CGFloat             labelRotation;
+
+    NSArray*            plotData;
 }
 
 @end

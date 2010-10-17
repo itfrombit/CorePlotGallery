@@ -1,6 +1,6 @@
 //
 //  SimpleBarGraph.h
-//  CPTestGallery
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 7/31/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
@@ -10,17 +10,17 @@
 #import "PlotGallery.h"
 
 @interface VerticalBarChart : PlotItem <CPPlotSpaceDelegate,
-									 CPPlotDataSource,
-									 CPBarPlotDelegate>
+                                        CPPlotDataSource,
+                                        CPBarPlotDelegate>
 {
-    CPLayerAnnotation*				symbolTextAnnotation;
+    CPLayerAnnotation   *symbolTextAnnotation;
 
-    CGFloat							xShift;
-    CGFloat							yShift;
+    CGFloat             xShift;
+    CGFloat             yShift;
 
-    CGFloat							labelRotation;
+    CGFloat             labelRotation;
 
-	NSArray*						plotData;
+    NSArray             *plotData;
 }
 
 @end

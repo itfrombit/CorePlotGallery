@@ -1,6 +1,6 @@
 //
 //  PlotGallery.h
-//  CPTestGallery
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 7/31/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
@@ -10,14 +10,14 @@
 
 @interface PlotGallery : NSObject
 {
-	NSMutableArray*		plotItems;
+    NSMutableArray *plotItems;
 }
 
-+ (PlotGallery*)sharedPlotGallery;
++ (PlotGallery *)sharedPlotGallery;
 
-- (void)addPlotItem:(PlotItem*)plotItem;
+- (void)addPlotItem:(PlotItem *)plotItem;
 
 - (int)count;
-- (PlotItem*)objectAtIndex:(int)index;
+- (PlotItem *)objectAtIndex:(int)index;
 
 @end

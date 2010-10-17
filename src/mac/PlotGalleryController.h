@@ -1,6 +1,6 @@
 //
 //  PlotGalleryController.h
-//  Plot Gallery-Mac
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 9/5/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
@@ -13,25 +13,26 @@
 #import "PlotGallery.h"
 #import "PlotView.h"
 
-@interface PlotGalleryController : NSObject <NSSplitViewDelegate>
+@interface PlotGalleryController : NSObject <NSSplitViewDelegate,
+                                             PlotViewDelegate>
 {
-	IBOutlet NSSplitView*			splitView;
-	IBOutlet NSScrollView*			scrollView;
-	IBOutlet IKImageBrowserView*	imageBrowser;
-	IBOutlet NSPopUpButton*			themePopUpButton;
-	
-	IBOutlet PlotView*				hostingView;
-	
-	CPLayerHostingView*				defaultLayerHostingView;
-	
-	PlotItem*						plotItem;
-	
-	NSString*						currentThemeName;
-//	NSMutableArray*					themes;
+    IBOutlet NSSplitView        *splitView;
+    IBOutlet NSScrollView       *scrollView;
+    IBOutlet IKImageBrowserView *imageBrowser;
+    IBOutlet NSPopUpButton      *themePopUpButton;
+
+    IBOutlet PlotView           *hostingView;
+    CPLayerHostingView          *defaultLayerHostingView;
+
+    PlotItem                    *plotItem;
+
+    NSString                    *currentThemeName;
+
+    void                        *nuHandle;
 }
 
-@property (nonatomic, retain) PlotItem* plotItem;
-@property (nonatomic, copy) NSString* currentThemeName;
+@property (nonatomic, retain) PlotItem *plotItem;
+@property (nonatomic, copy) NSString *currentThemeName;
 
 - (IBAction)themeSelectionDidChange:(id)sender;
 

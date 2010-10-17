@@ -1,6 +1,6 @@
 //
 //  RootViewController.h
-//  Plot Gallery
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 8/28/10.
 //  Copyright Jeff Buck 2010. All rights reserved.
@@ -12,9 +12,9 @@
 
 @interface RootViewController : UITableViewController
 {
-    DetailViewController*	detailViewController;
+    DetailViewController    *detailViewController;
 }
 
-@property (nonatomic, retain) IBOutlet DetailViewController* detailViewController;
+@property (nonatomic, retain) IBOutlet DetailViewController *detailViewController;
 
 @end

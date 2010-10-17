@@ -1,6 +1,6 @@
 //
 //  GradientScatterPlot.h
-//  CPTestGallery
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 8/2/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
@@ -10,18 +10,18 @@
 #import "PlotGallery.h"
 
 @interface GradientScatterPlot : PlotItem <	CPPlotSpaceDelegate,
-											CPPlotDataSource,
-											CPScatterPlotDelegate,
-											CPBarPlotDelegate>
+                                            CPPlotDataSource,
+                                            CPScatterPlotDelegate,
+                                            CPBarPlotDelegate>
 {
-    CPLayerAnnotation*				symbolTextAnnotation;
-	
-    CGFloat							xShift;
-    CGFloat							yShift;
-	
-    CGFloat							labelRotation;
-	
-	NSArray*						plotData;
+    CPLayerAnnotation   *symbolTextAnnotation;
+
+    CGFloat             xShift;
+    CGFloat             yShift;
+
+    CGFloat             labelRotation;
+
+    NSArray*            plotData;
 }
 
 @end

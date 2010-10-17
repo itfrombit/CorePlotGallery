@@ -213,6 +213,8 @@
 		4F22FF9912342D5F006BF615 /* Plots */ = {
 			isa = PBXGroup;
 			children = (
+				4F22FF9A12342D7C006BF615 /* CompositePlot.h */,
+				4F22FF9B12342D7C006BF615 /* CompositePlot.m */,
 				4F22FF9C12342D7C006BF615 /* GradientScatterPlot.h */,
 				4F22FF9D12342D7C006BF615 /* GradientScatterPlot.m */,
 				4F22FF9E12342D7C006BF615 /* SimplePieChart.h */,
@@ -221,8 +223,6 @@
 				4F22FFA112342D7C006BF615 /* SimpleScatterPlot.m */,
 				4F22FFA212342D7C006BF615 /* VerticalBarChart.h */,
 				4F22FFA312342D7C006BF615 /* VerticalBarChart.m */,
-				4F22FF9A12342D7C006BF615 /* CompositePlot.h */,
-				4F22FF9B12342D7C006BF615 /* CompositePlot.m */,
 			);
 			name = Plots;
 			sourceTree = "<group>";
@@ -266,7 +266,14 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Plot Gallery-Mac" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Plot Gallery-Mac */;
 			projectDirPath = "";
 			projectReferences = (

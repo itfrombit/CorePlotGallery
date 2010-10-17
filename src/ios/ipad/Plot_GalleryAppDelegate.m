@@ -1,6 +1,6 @@
 //
 //  Plot_GalleryAppDelegate.m
-//  Plot Gallery
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 8/28/10.
 //  Copyright Jeff Buck 2010. All rights reserved.
@@ -15,9 +15,9 @@
 #import "PlotItem.h"
 
 
-#if 0
+/*
 // Add new PlotItems to this list
-static NSString* plotClasses[] =
+static NSString *plotClasses[] =
 {
 	@"SimpleScatterPlot",
 	@"GradientScatterPlot",
@@ -25,8 +25,7 @@ static NSString* plotClasses[] =
 	@"VerticalBarChart",
 	@"CompositePlot"
 };
-#endif
-
+*/
 
 @implementation Plot_GalleryAppDelegate
 
@@ -38,23 +37,20 @@ static NSString* plotClasses[] =
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#if 0
-	PlotGallery* gallery = [PlotGallery sharedPlotGallery];
+/*
+    PlotGallery *gallery = [PlotGallery sharedPlotGallery];
+    int plotCount = sizeof(plotClasses)/sizeof(NSString *);
 	
-	int plotCount = sizeof(plotClasses)/sizeof(NSString*);
-	
-	for (int i = 0; i < plotCount; i++)
-	{
-		Class plotClass = NSClassFromString(plotClasses[i]);
-		id plotItem = [[[plotClass alloc] init] autorelease];
-		if (plotItem)
-		{
-			[gallery addPlotItem:plotItem];
-		}
-	}
-#endif
+    for (int i = 0; i < plotCount; i++) {
+        Class plotClass = NSClassFromString(plotClasses[i]);
+        id plotItem = [[[plotClass alloc] init] autorelease];
+        if (plotItem) {
+            [gallery addPlotItem:plotItem];
+        }
+    }
+*/
 
     [window addSubview:splitViewController.view];
     [window makeKeyAndVisible];
@@ -68,7 +64,7 @@ static NSString* plotClasses[] =
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-	NSLog(@"AppDelegate:applicationDidReceiveMemoryWarning");
+    NSLog(@"AppDelegate:applicationDidReceiveMemoryWarning");
 }
 
 

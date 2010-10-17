@@ -1,6 +1,6 @@
 //
 //  Plot_Gallery_MacAppDelegate.h
-//  Plot Gallery-Mac
+//  CorePlotGallery
 //
 //  Created by Jeff Buck on 9/5/10.
 //  Copyright 2010 Jeff Buck. All rights reserved.
