@@ -51,7 +51,12 @@
     // Remove the CPLayerHostingView
     if (defaultLayerHostingView) {
         [defaultLayerHostingView removeFromSuperview];
+        
+#if TARGET_OS_IPHONE
+        defaultLayerHostingView.hostedGraph = nil;
+#else
         defaultLayerHostingView.hostedLayer = nil;
+#endif
         [defaultLayerHostingView release];
         defaultLayerHostingView = nil;
     }
@@ -68,6 +73,33 @@
     [super dealloc];
 }
 
+- (void)setTitleDefaultsForGraph:(CPGraph *)graph withBounds:(CGRect)bounds
+{
+    graph.title = title;
+    CPTextStyle *textStyle = [CPTextStyle textStyle];
+    textStyle.color = [CPColor grayColor];
+    textStyle.fontName = @"Helvetica-Bold";
+    textStyle.fontSize = bounds.size.height / 20.0f;
+    graph.titleTextStyle = textStyle;
+    graph.titleDisplacement = CGPointMake(0.0f, bounds.size.height / 18.0f);
+    graph.titlePlotAreaFrameAnchor = CPRectAnchorTop;    
+}
+
+- (void)setPaddingDefaultsForGraph:(CPGraph *)graph withBounds:(CGRect)bounds
+{
+    float boundsPadding = bounds.size.width / 20.0f;
+    graph.paddingLeft = boundsPadding;
+
+    if (graph.titleDisplacement.y > 0.0) {
+        graph.paddingTop = graph.titleDisplacement.y * 2;
+    }
+    else {
+        graph.paddingTop = boundsPadding;
+    }
+
+    graph.paddingRight = boundsPadding;
+    graph.paddingBottom = boundsPadding;    
+}
 
 #if TARGET_OS_IPHONE
 
@@ -99,11 +131,12 @@
 - (UIImage *)image
 {
     if (cachedImage == nil) {
-        CGRect imageFrame = CGRectMake(0, 0, 800, 600);
-
+        CGRect imageFrame = CGRectMake(0, 0, 100, 75);
         UIView *imageView = [[UIView alloc] initWithFrame:imageFrame];
+        [imageView setOpaque:YES];
+        [imageView setUserInteractionEnabled:NO];
 
-        [self renderInView:imageView withTheme:nil];
+        [self renderInView:imageView withTheme:nil];        
         [self reloadData];
 
         UIGraphicsBeginImageContext(imageView.bounds.size);
@@ -111,7 +144,10 @@
             CGContextGetCTM(c);
             CGContextScaleCTM(c, 1, -1);
             CGContextTranslateCTM(c, 0, -imageView.bounds.size.height);
+            NSLog(@"Before renderInContext");
+            //[imageView.layer.superlayer setOpaque:YES];
             [imageView.layer renderInContext:c];
+            NSLog(@"Before UIGraphicsGetImageFromCurrentImageContext");
             UIImage* bigImage = UIGraphicsGetImageFromCurrentImageContext();
             // iOS 4.0 only
             //	cachedImage = [UIImage imageWithCGImage:[bigImage CGImage] 
@@ -199,9 +235,11 @@
 {
     [self killGraph];
 
-    defaultLayerHostingView = [[CPLayerHostingView alloc] initWithFrame:[hostingView bounds]];
+    defaultLayerHostingView = [[CPGraphHostingView alloc] initWithFrame:[hostingView bounds]];
 
-#if !TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
+    defaultLayerHostingView.collapsesLayers = NO;
+#else
     [defaultLayerHostingView setAutoresizesSubviews:YES];
     [defaultLayerHostingView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 #endif
@@ -210,7 +248,7 @@
     [self renderInLayer:defaultLayerHostingView withTheme:theme];
 }
 
-- (void)renderInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme
+- (void)renderInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme
 {
     NSLog(@"PlotItem:renderInLayer: Override me");
 }

@@ -14,9 +14,9 @@
 									 CPScatterPlotDelegate,
 									 CPBarPlotDelegate>
 {
-    CPLayerHostingView  *scatterPlotView;
-    CPLayerHostingView  *barChartView;
-    CPLayerHostingView  *pieChartView;
+    CPGraphHostingView  *scatterPlotView;
+    CPGraphHostingView  *barChartView;
+    CPGraphHostingView  *pieChartView;
 
     CPXYGraph           *scatterPlot;
     CPXYGraph           *barChart;
@@ -29,8 +29,8 @@
 @property(readwrite, retain, nonatomic) NSMutableArray  *dataForChart;
 @property(readwrite, retain, nonatomic) NSMutableArray  *dataForPlot;
 
-- (void)renderScatterPlotInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme;
-- (void)renderBarPlotInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme;
-- (void)renderPieChartInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme;
+- (void)renderScatterPlotInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme;
+- (void)renderBarPlotInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme;
+- (void)renderPieChartInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme;
 
 @end

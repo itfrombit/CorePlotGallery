@@ -30,6 +30,15 @@
     [self setupThemes];
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    {
+        [self setupThemes];
+    }
+    
+    return self;
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -89,7 +98,7 @@
 {
     [self.tableView setDataSource:nil];
     [self.tableView setDelegate:nil];
-
+    [delegate release];
     [themes release];
     [super dealloc];
 }

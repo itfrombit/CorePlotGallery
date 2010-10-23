@@ -46,40 +46,46 @@
     }
 }
 
-- (void)renderInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme
+- (void)renderInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme
 {
-    // Core-Plot view
-    CPGraph *graph = [[CPXYGraph alloc] initWithFrame:layerHostingView.bounds];
+    CGRect bounds = layerHostingView.bounds;
+
+    CPGraph *graph = [[[CPXYGraph alloc] initWithFrame:bounds] autorelease];
     [graphs addObject:graph];
 
     [self applyTheme:theme toGraph:graph withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
 
+#if TARGET_OS_IPHONE
+    layerHostingView.hostedGraph = graph;
+#else
     layerHostingView.hostedLayer = graph;
+#endif
+    
     graph.title = title;
     CPTextStyle *textStyle = [CPTextStyle textStyle];
     textStyle.color = [CPColor grayColor];
     textStyle.fontName = @"Helvetica-Bold";
-    textStyle.fontSize = 18.0f;
+    textStyle.fontSize = bounds.size.height / 20.0f;
     graph.titleTextStyle = textStyle;
-    graph.titleDisplacement = CGPointMake(0.0f, 20.0f);
+    graph.titleDisplacement = CGPointMake(0.0f, bounds.size.height / 18.0f);
     graph.titlePlotAreaFrameAnchor = CPRectAnchorTop;
 
     graph.plotAreaFrame.masksToBorder = NO;
 
     // Graph padding
-    graph.paddingLeft = 20.0;
-    graph.paddingTop = 60.0;
-    graph.paddingRight = 20.0;
-    graph.paddingBottom = 20.0;
+    float boundsPadding = bounds.size.width / 20.0f;
+    graph.paddingLeft = boundsPadding;
+    graph.paddingTop = graph.titleDisplacement.y * 2;
+    graph.paddingRight = boundsPadding;
+    graph.paddingBottom = boundsPadding;
 
     graph.axisSet = nil;
 
     // Add pie chart
     CPPieChart *piePlot = [[CPPieChart alloc] init];
     piePlot.dataSource = self;
-    float pieRadius = MIN(0.8 * (layerHostingView.frame.size.height - 40.0) / 2.0,
-                          0.8 * (layerHostingView.frame.size.width - 80.0) / 2.0);
-    piePlot.pieRadius = MAX(pieRadius, 25.0);
+    piePlot.pieRadius = MIN(0.7 * (layerHostingView.frame.size.height - 2 * graph.paddingLeft) / 2.0,
+                            0.7 * (layerHostingView.frame.size.width - 2 * graph.paddingTop) / 2.0);
     piePlot.identifier = title;
     piePlot.startAngle = M_PI_4;
     piePlot.sliceDirection = CPPieDirectionCounterClockwise;

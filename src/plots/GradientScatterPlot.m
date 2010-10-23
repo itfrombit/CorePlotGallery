@@ -53,29 +53,24 @@
     }
 }
 
-- (void)renderInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme
+- (void)renderInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme
 {
-    CPGraph* graph = [[[CPXYGraph alloc] initWithFrame:layerHostingView.bounds] autorelease];
+    CGRect bounds = layerHostingView.bounds;
+
+    CPGraph* graph = [[[CPXYGraph alloc] initWithFrame:bounds] autorelease];
     [graphs addObject:graph];
 
     [self applyTheme:theme toGraph:graph withDefault:[CPTheme themeNamed:kCPSlateTheme]];
-
+    
+#if TARGET_OS_IPHONE
+    layerHostingView.hostedGraph = graph;
+#else
     layerHostingView.hostedLayer = graph;
-    graph.title = title;
-    CPTextStyle *textStyle = [CPTextStyle textStyle];
-    textStyle.color = [CPColor grayColor];
-    textStyle.fontName = @"Helvetica-Bold";
-    textStyle.fontSize = 18.0f;
-    graph.titleTextStyle = textStyle;
-    graph.titleDisplacement = CGPointMake(0.0f, 20.0f);
-    graph.titlePlotAreaFrameAnchor = CPRectAnchorTop;
+#endif
 
-    // Graph padding
-    graph.paddingLeft = 60.0;
-    graph.paddingTop = 60.0;
-    graph.paddingRight = 60.0;
-    graph.paddingBottom = 60.0;
-
+    [self setTitleDefaultsForGraph:graph withBounds:bounds];
+    [self setPaddingDefaultsForGraph:graph withBounds:bounds];
+   
     // Setup scatter plot space
     CPXYPlotSpace *plotSpace = (CPXYPlotSpace *)graph.defaultPlotSpace;
     plotSpace.allowsUserInteraction = YES;
@@ -99,19 +94,19 @@
     CPXYAxisSet *axisSet = (CPXYAxisSet *)graph.axisSet;
     CPXYAxis *x = axisSet.xAxis;
     x.majorIntervalLength = CPDecimalFromString(@"0.5");
-    x.orthogonalCoordinateDecimal = CPDecimalFromString(@"1");
+    x.orthogonalCoordinateDecimal = CPDecimalFromString(@"1.0");
     x.minorTicksPerInterval = 2;
     x.majorGridLineStyle = majorGridLineStyle;
     x.minorGridLineStyle = minorGridLineStyle;
 
     x.title = @"X Axis";
     x.titleOffset = 30.0;
-    x.titleLocation = CPDecimalFromString(@"3.0");
+    x.titleLocation = CPDecimalFromString(@"1.25");
 	
-	// Label y with an automatic label policy. 
+	// Label y with an automatic label policy.
     CPXYAxis *y = axisSet.yAxis;
     y.labelingPolicy = CPAxisLabelingPolicyAutomatic;
-    y.orthogonalCoordinateDecimal = CPDecimalFromString(@"1");
+    y.orthogonalCoordinateDecimal = CPDecimalFromString(@"1.0");
     y.minorTicksPerInterval = 2;
     y.preferredNumberOfMajorTicks = 8;
     y.majorGridLineStyle = majorGridLineStyle;
@@ -120,7 +115,7 @@
 
     y.title = @"Y Axis";
     y.titleOffset = 30.0;
-    y.titleLocation = CPDecimalFromString(@"2.7");
+    y.titleLocation = CPDecimalFromString(@"1.0");
 
     // Rotate the labels by 45 degrees, just to show it can be done.
     labelRotation = M_PI * 0.25;
@@ -177,11 +172,12 @@
     CPPlotRange *xRange = plotSpace.xRange;
     CPPlotRange *yRange = plotSpace.yRange;
     [xRange expandRangeByFactor:CPDecimalFromDouble(1.3)];
-    [yRange expandRangeByFactor:CPDecimalFromDouble(1.1)];
+    [yRange expandRangeByFactor:CPDecimalFromDouble(1.3)];
     plotSpace.yRange = yRange;
 
     // Restrict y range to a global range
-    CPPlotRange *globalYRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(0.0f) length:CPDecimalFromFloat(6.0f)];
+    CPPlotRange *globalYRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(0.0f)
+                                                            length:CPDecimalFromFloat(2.0f)];
     plotSpace.globalYRange = globalYRange;
 
     // set the x and y shift to match the new ranges

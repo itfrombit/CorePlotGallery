@@ -13,6 +13,7 @@
 #import "CorePlot-CocoaTouch.h"
 #else
 #import <CorePlot/CorePlot.h>
+typedef CPLayerHostingView CPGraphHostingView;
 #endif
 
 @class CPGraph;
@@ -20,7 +21,8 @@
 
 @interface PlotItem : NSObject
 {
-    CPLayerHostingView  *defaultLayerHostingView;
+    CPGraphHostingView  *defaultLayerHostingView;
+
     NSMutableArray      *graphs;
     NSString            *title;
 
@@ -31,7 +33,12 @@
 #endif
 }
 
+#if TARGET_OS_IPHONE
+@property (nonatomic, retain) CPGraphHostingView *defaultLayerHostingView;
+#else
 @property (nonatomic, retain) CPLayerHostingView *defaultLayerHostingView;
+#endif
+
 @property (nonatomic, retain) NSMutableArray *graphs;
 @property (nonatomic, retain) NSString *title;
 
@@ -46,7 +53,11 @@
 - (void)setFrameSize:(NSSize)size;
 #endif
 
-- (void)renderInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme;
+
+- (void)renderInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme;
+
+- (void)setTitleDefaultsForGraph:(CPGraph *)graph withBounds:(CGRect)bounds;
+- (void)setPaddingDefaultsForGraph:(CPGraph *)graph withBounds:(CGRect)bounds;
 
 - (void)reloadData;
 - (void)applyTheme:(CPTheme *)theme toGraph:(CPGraph *)graph withDefault:(CPTheme *)defaultTheme;

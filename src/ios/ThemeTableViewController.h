@@ -11,7 +11,7 @@
 #define kThemeTableViewControllerNoTheme @"None"
 #define kThemeTableViewControllerDefaultTheme @"Default"
 
-@protocol ThemeTableViewControllerDelegate
+@protocol ThemeTableViewControllerDelegate <NSObject>
 
 - (void)themeSelectedAtIndex:(NSString*)themeName;
 

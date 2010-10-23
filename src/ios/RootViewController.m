@@ -64,7 +64,17 @@
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PlotItem *plotItem = [[PlotGallery sharedPlotGallery] objectAtIndex:indexPath.row];
-    detailViewController.detailItem = plotItem;
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        detailViewController.detailItem = plotItem;
+    }
+    else {
+        detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:nil];
+        [self.navigationController pushViewController:detailViewController animated:YES];
+        detailViewController.detailItem = plotItem;
+        [detailViewController release];
+        detailViewController = nil;
+    }
 }
 
 #pragma mark -

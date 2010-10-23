@@ -66,17 +66,17 @@
 
     CGRect viewRect = [hostingView bounds];
 
-    scatterPlotView = [[CPLayerHostingView alloc] initWithFrame:CGRectMake(0.0f,
+    scatterPlotView = [[CPGraphHostingView alloc] initWithFrame:CGRectMake(0.0f,
                                                                            0.0f,
                                                                            viewRect.size.width,
                                                                            viewRect.size.height * 0.5f)];
 
-    barChartView = [[CPLayerHostingView alloc] initWithFrame:CGRectMake(0.0f,
+    barChartView = [[CPGraphHostingView alloc] initWithFrame:CGRectMake(0.0f,
                                                                         viewRect.size.height * 0.5f,
                                                                         viewRect.size.width * 0.5f,
                                                                         viewRect.size.height * 0.5f)];
 
-    pieChartView = [[CPLayerHostingView alloc] initWithFrame:CGRectMake(viewRect.size.width * 0.5f,
+    pieChartView = [[CPGraphHostingView alloc] initWithFrame:CGRectMake(viewRect.size.width * 0.5f,
                                                                         viewRect.size.height * 0.5f,
                                                                         viewRect.size.width * 0.5f,
                                                                         viewRect.size.height * 0.5f)];
@@ -102,11 +102,17 @@
 }
 
 - (void)killGraph
-{	
+{
+#if TARGET_OS_IPHONE
+    scatterPlotView.hostedGraph = nil;
+    barChartView.hostedGraph = nil;
+    pieChartView.hostedGraph = nil;
+#else
     scatterPlotView.hostedLayer = nil;
     barChartView.hostedLayer = nil;
     pieChartView.hostedLayer = nil;
-
+#endif
+    
     [scatterPlotView removeFromSuperview];
     [barChartView removeFromSuperview];
     [pieChartView removeFromSuperview];
@@ -122,7 +128,7 @@
     [super killGraph];
 }
 
-- (void)renderScatterPlotInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme
+- (void)renderScatterPlotInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme
 {
 	// Create graph from theme
     scatterPlot = [[CPXYGraph alloc] initWithFrame:[scatterPlotView bounds]];
@@ -130,8 +136,12 @@
 
     [self applyTheme:theme toGraph:scatterPlot withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
 
+#if TARGET_OS_IPHONE
+    scatterPlotView.hostedGraph = scatterPlot;
+#else
     scatterPlotView.hostedLayer = scatterPlot;
-
+#endif
+    
     scatterPlot.paddingLeft = 10.0;
     scatterPlot.paddingTop = 10.0;
     scatterPlot.paddingRight = 10.0;
@@ -227,73 +237,91 @@
     self.dataForPlot = contentArray;
 }
 
-- (void)renderBarPlotInLayer:(CPLayerHostingView*)layerHostingView withTheme:(CPTheme*)theme
+- (void)renderBarPlotInLayer:(CPGraphHostingView*)layerHostingView withTheme:(CPTheme*)theme
 {
-    // Create barChart from theme
+    CGRect bounds = layerHostingView.bounds;
+
+    BOOL drawAxis = YES;
+    if (bounds.size.width < 200.0f) {
+        drawAxis = NO;
+    }
+    
     barChart = [[CPXYGraph alloc] initWithFrame:[barChartView bounds]];
     [graphs addObject:barChart];
 
     [self applyTheme:theme toGraph:barChart withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
-
-    barChartView.hostedLayer = barChart;
-    barChart.plotAreaFrame.masksToBorder = NO;
     
-    barChart.paddingLeft = 70.0;
-    barChart.paddingTop = 20.0;
-    barChart.paddingRight = 20.0;
-    barChart.paddingBottom = 80.0;
+#if TARGET_OS_IPHONE
+    barChartView.hostedGraph = barChart;
+#else
+    barChartView.hostedLayer = barChart;
+#endif
+    
+    barChart.plotAreaFrame.masksToBorder = NO;
 
-    // Add plot space for horizontal bar charts
+    if (drawAxis) {
+        barChart.paddingLeft = 70.0;
+        barChart.paddingTop = 20.0;
+        barChart.paddingRight = 20.0;
+        barChart.paddingBottom = 80.0;
+    }
+    else {
+        [self setPaddingDefaultsForGraph:barChart withBounds:bounds];
+    }
+
+
     CPXYPlotSpace *plotSpace = (CPXYPlotSpace *)barChart.defaultPlotSpace;
     plotSpace.yRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(0.0f) length:CPDecimalFromFloat(300.0f)];
     plotSpace.xRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(0.0f) length:CPDecimalFromFloat(16.0f)];
-	
-    CPXYAxisSet *axisSet = (CPXYAxisSet *)barChart.axisSet;
-    CPXYAxis *x = axisSet.xAxis;
-    x.axisLineStyle = nil;
-    x.majorTickLineStyle = nil;
-    x.minorTickLineStyle = nil;
-    x.majorIntervalLength = CPDecimalFromString(@"5");
-    x.orthogonalCoordinateDecimal = CPDecimalFromString(@"0");
-    x.title = @"X Axis";
-    x.titleLocation = CPDecimalFromFloat(7.5f);
-    x.titleOffset = 55.0f;
 
-    // Define some custom labels for the data elements
-    x.labelRotation = M_PI/4;
-    x.labelingPolicy = CPAxisLabelingPolicyNone;
-    NSArray *customTickLocations = [NSArray arrayWithObjects:
-                                    [NSDecimalNumber numberWithInt:1],
-                                    [NSDecimalNumber numberWithInt:5],
-                                    [NSDecimalNumber numberWithInt:10],
-                                    [NSDecimalNumber numberWithInt:15], 
-                                    nil];
-    NSArray *xAxisLabels = [NSArray arrayWithObjects:@"Label A", @"Label B", @"Label C", @"Label D", @"Label E", nil];
-    NSUInteger labelLocation = 0;
-    NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[xAxisLabels count]];
-    for (NSNumber *tickLocation in customTickLocations) {
-        CPAxisLabel *newLabel = [[CPAxisLabel alloc] initWithText: [xAxisLabels objectAtIndex:labelLocation++] textStyle:x.labelTextStyle];
-        newLabel.tickLocation = [tickLocation decimalValue];
-        newLabel.offset = x.labelOffset + x.majorTickLength;
-        newLabel.rotation = M_PI/4;
-        [customLabels addObject:newLabel];
-        [newLabel release];
+    if (drawAxis) {        
+        CPXYAxisSet *axisSet = (CPXYAxisSet *)barChart.axisSet;
+        CPXYAxis *x = axisSet.xAxis;
+        x.axisLineStyle = nil;
+        x.majorTickLineStyle = nil;
+        x.minorTickLineStyle = nil;
+        x.majorIntervalLength = CPDecimalFromString(@"5");
+        x.orthogonalCoordinateDecimal = CPDecimalFromString(@"0");
+        x.title = @"X Axis";
+        x.titleLocation = CPDecimalFromFloat(7.5f);
+        x.titleOffset = 55.0f;
+
+        // Define some custom labels for the data elements
+        x.labelRotation = M_PI/4;
+        x.labelingPolicy = CPAxisLabelingPolicyNone;
+        NSArray *customTickLocations = [NSArray arrayWithObjects:
+                                        [NSDecimalNumber numberWithInt:1],
+                                        [NSDecimalNumber numberWithInt:5],
+                                        [NSDecimalNumber numberWithInt:10],
+                                        [NSDecimalNumber numberWithInt:15], 
+                                        nil];
+        NSArray *xAxisLabels = [NSArray arrayWithObjects:@"Label A", @"Label B", @"Label C", @"Label D", @"Label E", nil];
+        NSUInteger labelLocation = 0;
+        NSMutableArray *customLabels = [NSMutableArray arrayWithCapacity:[xAxisLabels count]];
+        for (NSNumber *tickLocation in customTickLocations) {
+            CPAxisLabel *newLabel = [[CPAxisLabel alloc] initWithText: [xAxisLabels objectAtIndex:labelLocation++] textStyle:x.labelTextStyle];
+            newLabel.tickLocation = [tickLocation decimalValue];
+            newLabel.offset = x.labelOffset + x.majorTickLength;
+            newLabel.rotation = M_PI/4;
+            [customLabels addObject:newLabel];
+            [newLabel release];
+        }
+
+        x.axisLabels =  [NSSet setWithArray:customLabels];
+
+        CPXYAxis *y = axisSet.yAxis;
+        y.axisLineStyle = nil;
+        y.majorTickLineStyle = nil;
+        y.minorTickLineStyle = nil;
+        y.majorIntervalLength = CPDecimalFromString(@"50");
+        y.orthogonalCoordinateDecimal = CPDecimalFromString(@"0");
+        y.title = @"Y Axis";
+        y.titleOffset = 45.0f;
+        y.titleLocation = CPDecimalFromFloat(150.0f);
     }
-
-    x.axisLabels =  [NSSet setWithArray:customLabels];
-
-    CPXYAxis *y = axisSet.yAxis;
-    y.axisLineStyle = nil;
-    y.majorTickLineStyle = nil;
-    y.minorTickLineStyle = nil;
-    y.majorIntervalLength = CPDecimalFromString(@"50");
-    y.orthogonalCoordinateDecimal = CPDecimalFromString(@"0");
-    y.title = @"Y Axis";
-    y.titleOffset = 45.0f;
-    y.titleLocation = CPDecimalFromFloat(150.0f);
 	
     // First bar plot
-    CPBarPlot *barPlot = [CPBarPlot tubularBarPlotWithColor:[CPColor darkGrayColor] horizontalBars:NO];
+    CPBarPlot *barPlot = [CPBarPlot tubularBarPlotWithColor:[CPColor redColor] horizontalBars:NO];
     barPlot.baseValue = CPDecimalFromString(@"0");
     barPlot.dataSource = self;
     barPlot.barOffset = -0.25f;
@@ -311,33 +339,37 @@
     [barChart addPlot:barPlot toPlotSpace:plotSpace];
 }
 
-- (void)renderPieChartInLayer:(CPLayerHostingView*)layerHostingView withTheme:(CPTheme*)theme
+- (void)renderPieChartInLayer:(CPGraphHostingView*)layerHostingView withTheme:(CPTheme*)theme
 {
-    // Create pieChart from theme
+    CGRect bounds = layerHostingView.bounds;
+
     pieChart = [[CPXYGraph alloc] initWithFrame:[pieChartView bounds]];
     [graphs addObject:pieChart];
 
     [self applyTheme:theme toGraph:pieChart withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
-
+    
+#if TARGET_OS_IPHONE
+    pieChartView.hostedGraph = pieChart;
+#else
     pieChartView.hostedLayer = pieChart;
+#endif
+
     pieChart.plotAreaFrame.masksToBorder = NO;
 
-    pieChart.paddingLeft = 20.0;
-    pieChart.paddingTop = 20.0;
-    pieChart.paddingRight = 20.0;
-    pieChart.paddingBottom = 20.0;
+    [self setPaddingDefaultsForGraph:pieChart withBounds:bounds];
 
     pieChart.axisSet = nil;
 
     // Add pie chart
     CPPieChart *piePlot = [[CPPieChart alloc] init];
     piePlot.dataSource = self;
-    piePlot.pieRadius = 100.0;
+    piePlot.pieRadius = MIN(0.7 * (layerHostingView.frame.size.height - 2 * pieChart.paddingLeft) / 2.0,
+                            0.7 * (layerHostingView.frame.size.width - 2 * pieChart.paddingTop) / 2.0);
     piePlot.identifier = @"Pie Chart 1";
     piePlot.startAngle = M_PI_4;
     piePlot.sliceDirection = CPPieDirectionCounterClockwise;
     piePlot.borderLineStyle = [CPLineStyle lineStyle];
-    piePlot.sliceLabelOffset = -15.0;
+    //piePlot.sliceLabelOffset = 5.0;
     [pieChart addPlot:piePlot];
     [piePlot release];
     

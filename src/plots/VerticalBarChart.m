@@ -44,43 +44,41 @@
 {
 }
 
-- (void)renderInLayer:(CPLayerHostingView *)layerHostingView withTheme:(CPTheme *)theme
+- (void)renderInLayer:(CPGraphHostingView *)layerHostingView withTheme:(CPTheme *)theme
 {
-    CPGraph *graph = [[CPXYGraph alloc] initWithFrame:layerHostingView.bounds];
+    CGRect bounds = layerHostingView.bounds;
+
+    CPGraph *graph = [[CPXYGraph alloc] initWithFrame:bounds];
     [graphs addObject:graph];
 
     [self applyTheme:theme toGraph:graph withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
-	
-    layerHostingView.hostedLayer = graph;
-    graph.title = title;
-    CPTextStyle *textStyle = [CPTextStyle textStyle];
-    textStyle.color = [CPColor grayColor];
-    textStyle.fontName = @"Helvetica-Bold";
-    textStyle.fontSize = 18.0f;
-    graph.titleTextStyle = textStyle;
-    graph.titleDisplacement = CGPointMake(0.0f, 20.0f);
-    graph.titlePlotAreaFrameAnchor = CPRectAnchorTop;
 
-    // Graph padding
-    graph.paddingLeft = 60.0;
-    graph.paddingTop = 60.0;
-    graph.paddingRight = 60.0;
-    graph.paddingBottom = 60.0;
+#if TARGET_OS_IPHONE
+    layerHostingView.hostedGraph = graph;
+#else
+    layerHostingView.hostedLayer = graph;
+#endif
+    
+    [self setTitleDefaultsForGraph:graph withBounds:bounds];
+    [self setPaddingDefaultsForGraph:graph withBounds:bounds];
 
     // Add plot space for horizontal bar charts
     CPXYPlotSpace *barPlotSpace = [[CPXYPlotSpace alloc] init];
     barPlotSpace.xRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(-1.0f) length:CPDecimalFromFloat(9.0f)];
-    barPlotSpace.yRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(-20.0f) length:CPDecimalFromFloat(100.0f)];
+    barPlotSpace.yRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(-10.0f) length:CPDecimalFromFloat(100.0f)];
     [graph addPlotSpace:barPlotSpace];
     [barPlotSpace release];
 
     // First bar plot
-    CPBarPlot *barPlot = [CPBarPlot tubularBarPlotWithColor:[CPColor cyanColor] horizontalBars:NO];
+    CPBarPlot *barPlot = [CPBarPlot tubularBarPlotWithColor:[CPColor orangeColor] horizontalBars:NO];
     barPlot.dataSource = self;
+    int barCount = [self numberOfRecordsForPlot:barPlot];
+
     barPlot.barOffset = -0.25f;
     barPlot.identifier = @"Bar Plot 1";
-    barPlot.barWidth = 40.0f;
-    barPlot.plotRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromDouble(0.0) length:CPDecimalFromDouble(7.0)];
+    barPlot.barWidth = 0.8 * bounds.size.width / barCount;
+    barPlot.plotRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromDouble(0.0)
+                                                    length:CPDecimalFromDouble(barCount - 1.0)];
     CPTextStyle *whiteTextStyle = [CPTextStyle textStyle];
     whiteTextStyle.color = [CPColor whiteColor];
     barPlot.barLabelTextStyle = whiteTextStyle;
