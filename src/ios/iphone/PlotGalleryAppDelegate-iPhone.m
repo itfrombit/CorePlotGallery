@@ -7,7 +7,7 @@
 //
 
 #import "PlotGalleryAppDelegate-iPhone.h"
-
+#import "PlotGallery.h"
 
 @implementation PlotGalleryAppDelegate_iPhone
 
@@ -15,7 +15,8 @@
 @synthesize navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{	
+{
+    [[PlotGallery sharedPlotGallery] sortByTitle];
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 	return YES;

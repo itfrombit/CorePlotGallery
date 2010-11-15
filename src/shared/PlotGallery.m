@@ -86,4 +86,9 @@ static PlotGallery *sharedPlotGallery = nil;
     return [plotItems objectAtIndex:index];
 }
 
+- (void)sortByTitle
+{
+    [plotItems sortUsingSelector:@selector(titleCompare:)];
+}
+
 @end

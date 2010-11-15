@@ -9,7 +9,7 @@
 #import "PlotGalleryController.h"
 
 #import "dlfcn.h"
-#define EMBED_NU	1
+//#define EMBED_NU	1
 
 const float CP_SPLIT_VIEW_MIN_LHS_WIDTH = 150.0f;
 
@@ -36,6 +36,8 @@ const float CP_SPLIT_VIEW_MIN_LHS_WIDTH = 150.0f;
 
 - (void)awakeFromNib
 {
+    [[PlotGallery sharedPlotGallery] sortByTitle];
+
     [splitView setDelegate:self];
 
     [imageBrowser setDelegate:self];
@@ -47,6 +49,7 @@ const float CP_SPLIT_VIEW_MIN_LHS_WIDTH = 150.0f;
     [hostingView setDelegate:self];
 
     [self setupThemes];
+
 
 #ifdef EMBED_NU
     // Setup a Nu console without the help of the Nu include files or

@@ -12,14 +12,7 @@
 @interface SimplePieChart : PlotItem <CPPlotSpaceDelegate,
 									  CPPlotDataSource>
 {
-    CPLayerAnnotation   *symbolTextAnnotation;
-	
-    CGFloat             xShift;
-    CGFloat             yShift;
-
-    CGFloat             labelRotation;
-
-    NSArray*            plotData;
+    NSArray *plotData;
 }
 
 @end

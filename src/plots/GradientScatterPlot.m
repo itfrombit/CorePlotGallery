@@ -17,8 +17,7 @@
 
 - (id)init
 {
-    if (self = [super init])
-    {
+    if (self = [super init]) {
         title = @"Gradient Scatter Plot";
     }
 
@@ -58,16 +57,9 @@
     CGRect bounds = layerHostingView.bounds;
 
     CPGraph* graph = [[[CPXYGraph alloc] initWithFrame:bounds] autorelease];
-    [graphs addObject:graph];
-
+    [self addGraph:graph toHostingView:layerHostingView];
     [self applyTheme:theme toGraph:graph withDefault:[CPTheme themeNamed:kCPSlateTheme]];
     
-#if TARGET_OS_IPHONE
-    layerHostingView.hostedGraph = graph;
-#else
-    layerHostingView.hostedLayer = graph;
-#endif
-
     [self setTitleDefaultsForGraph:graph withBounds:bounds];
     [self setPaddingDefaultsForGraph:graph withBounds:bounds];
    
@@ -216,12 +208,7 @@
 
 -(NSUInteger)numberOfRecordsForPlot:(CPPlot *)plot
 {
-    if ([plot isKindOfClass:[CPBarPlot class]]) {
-        return 8;
-    }
-    else {
-        return [plotData count];
-    }
+    return [plotData count];
 }
 
 -(NSNumber *)numberForPlot:(CPPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index

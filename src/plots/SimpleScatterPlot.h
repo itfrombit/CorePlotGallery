@@ -11,8 +11,7 @@
 
 @interface SimpleScatterPlot : PlotItem < CPPlotSpaceDelegate,
                                           CPPlotDataSource,
-                                          CPScatterPlotDelegate,
-                                          CPBarPlotDelegate>
+                                          CPScatterPlotDelegate>
 {
     CPLayerAnnotation   *symbolTextAnnotation;
 

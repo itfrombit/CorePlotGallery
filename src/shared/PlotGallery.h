@@ -17,6 +17,7 @@
 
 - (void)addPlotItem:(PlotItem *)plotItem;
 
+- (void)sortByTitle;
 - (int)count;
 - (PlotItem *)objectAtIndex:(int)index;
 

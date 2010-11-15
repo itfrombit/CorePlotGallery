@@ -57,16 +57,9 @@
     CGRect bounds = layerHostingView.bounds;
 
     CPGraph *graph = [[[CPXYGraph alloc] initWithFrame:bounds] autorelease];
-    [graphs addObject:graph];
-
+    [self addGraph:graph toHostingView:layerHostingView];
     [self applyTheme:theme toGraph:graph withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
 
-#if TARGET_OS_IPHONE
-    layerHostingView.hostedGraph = graph;
-#else
-    layerHostingView.hostedLayer = graph;
-#endif    
-    
     [self setTitleDefaultsForGraph:graph withBounds:bounds];
     [self setPaddingDefaultsForGraph:graph withBounds:bounds];
 
@@ -175,6 +168,7 @@
     [super dealloc];
 }
 
+#pragma mark -
 #pragma mark Plot Data Source Methods
 
 -(NSUInteger)numberOfRecordsForPlot:(CPPlot *)plot
@@ -191,6 +185,7 @@
     return num;
 }
 
+#pragma mark -
 #pragma mark Plot Space Delegate Methods
 
 -(CPPlotRange *)plotSpace:(CPPlotSpace *)space willChangePlotRangeTo:(CPPlotRange *)newRange forCoordinate:(CPCoordinate)coordinate

@@ -62,6 +62,10 @@ typedef CPLayerHostingView CPGraphHostingView;
 - (void)reloadData;
 - (void)applyTheme:(CPTheme *)theme toGraph:(CPGraph *)graph withDefault:(CPTheme *)defaultTheme;
 
+- (void)addGraph:(CPGraph *)graph;
+- (void)addGraph:(CPGraph *)graph toHostingView:(CPGraphHostingView *)layerHostingView;
 - (void)killGraph;
+
+- (NSComparisonResult)titleCompare:(PlotItem *)other;
 
 @end

@@ -51,7 +51,7 @@ static NSString *plotClasses[] =
         }
     }
 */
-
+    [[PlotGallery sharedPlotGallery] sortByTitle];
     [window addSubview:splitViewController.view];
     [window makeKeyAndVisible];
 

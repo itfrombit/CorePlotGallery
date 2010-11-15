@@ -45,6 +45,23 @@
     return self;
 }
 
+- (void)addGraph:(CPGraph *)graph toHostingView:(CPGraphHostingView *)layerHostingView
+{
+    [graphs addObject:graph];
+
+    if (layerHostingView) {
+#if TARGET_OS_IPHONE
+    layerHostingView.hostedGraph = graph;
+#else
+    layerHostingView.hostedLayer = graph;
+#endif
+    }
+}
+
+- (void)addGraph:(CPGraph *)graph
+{
+    [self addGraph:graph toHostingView:nil];
+}
 
 - (void)killGraph
 {
@@ -71,6 +88,11 @@
 {
     [self killGraph];
     [super dealloc];
+}
+
+- (NSComparisonResult)titleCompare:(PlotItem *)other
+{
+    return [title caseInsensitiveCompare:other.title];
 }
 
 - (void)setTitleDefaultsForGraph:(CPGraph *)graph withBounds:(CGRect)bounds
@@ -144,16 +166,16 @@
             CGContextGetCTM(c);
             CGContextScaleCTM(c, 1, -1);
             CGContextTranslateCTM(c, 0, -imageView.bounds.size.height);
-            NSLog(@"Before renderInContext");
-            //[imageView.layer.superlayer setOpaque:YES];
             [imageView.layer renderInContext:c];
-            NSLog(@"Before UIGraphicsGetImageFromCurrentImageContext");
-            UIImage* bigImage = UIGraphicsGetImageFromCurrentImageContext();
-            // iOS 4.0 only
-            //	cachedImage = [UIImage imageWithCGImage:[bigImage CGImage] 
-            //									  scale:0.125f
-            //								orientation:0.0f];
-            cachedImage = [[UIImage imageWithCGImage:[self scaleCGImage:[bigImage CGImage] toSize:CGSizeMake(100.0f, 75.0f)]] retain];
+            cachedImage = [UIGraphicsGetImageFromCurrentImageContext() retain];
+        
+            // This code was to rescale a graph that needed a larger rendering
+            // area because of absolute pixel sizing. All of the sample plots
+            // are now aware of device/screen sizes and should render properly
+            // even to a thumbnail size.
+            //UIImage* bigImage = UIGraphicsGetImageFromCurrentImageContext();
+            //cachedImage = [[UIImage imageWithCGImage:[self scaleCGImage:[bigImage CGImage] toSize:CGSizeMake(100.0f, 75.0f)]] retain];
+
         UIGraphicsEndImageContext();
 
         [imageView release];
@@ -167,7 +189,7 @@
 - (NSImage *)image
 {
     if (cachedImage == nil) {
-        CGRect imageFrame = CGRectMake(0, 0, 800, 600);
+        CGRect imageFrame = CGRectMake(0, 0, 400, 300);
 
 		NSView *imageView = [[NSView alloc] initWithFrame:NSRectFromCGRect(imageFrame)];
         [imageView setWantsLayer:YES];

@@ -49,16 +49,9 @@
     CGRect bounds = layerHostingView.bounds;
 
     CPGraph *graph = [[CPXYGraph alloc] initWithFrame:bounds];
-    [graphs addObject:graph];
-
+    [self addGraph:graph toHostingView:layerHostingView];
     [self applyTheme:theme toGraph:graph withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
 
-#if TARGET_OS_IPHONE
-    layerHostingView.hostedGraph = graph;
-#else
-    layerHostingView.hostedLayer = graph;
-#endif
-    
     [self setTitleDefaultsForGraph:graph withBounds:bounds];
     [self setPaddingDefaultsForGraph:graph withBounds:bounds];
 
@@ -103,6 +96,7 @@
     return nil;
 }
 
+#pragma mark -
 #pragma mark CPBarPlot delegate method
 
 -(void)barPlot:(CPBarPlot *)plot barWasSelectedAtRecordIndex:(NSUInteger)index
@@ -144,6 +138,7 @@
     [graph.plotAreaFrame.plotArea addAnnotation:symbolTextAnnotation];    
 }
 
+#pragma mark -
 #pragma mark Plot Data Source Methods
 
 -(NSUInteger)numberOfRecordsForPlot:(CPPlot *)plot

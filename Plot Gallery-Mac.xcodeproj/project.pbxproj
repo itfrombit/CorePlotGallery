@@ -23,6 +23,9 @@
 		4F35EBF7123611E3007C3389 /* PlotGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F35EBF4123611E3007C3389 /* PlotGalleryController.m */; };
 		4F35EBF8123611E3007C3389 /* PlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F35EBF6123611E3007C3389 /* PlotView.m */; };
 		4F35EC3D1236AF0C007C3389 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F35EC271236AE6E007C3389 /* CorePlot.framework */; };
+		4F8E1C14129077C200D2035F /* DatePlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E1C13129077C200D2035F /* DatePlot.m */; };
+		4F8E1C86129083B000D2035F /* SteppedScatterPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E1C85129083B000D2035F /* SteppedScatterPlot.m */; };
+		4F8E1CC212908B0000D2035F /* AxisDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E1CC112908B0000D2035F /* AxisDemo.m */; };
 		4FD17D741236B05400EBD263 /* CorePlot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4F35EC271236AE6E007C3389 /* CorePlot.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -98,6 +101,12 @@
 		4F35EBF5123611E3007C3389 /* PlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlotView.h; path = src/mac/PlotView.h; sourceTree = "<group>"; };
 		4F35EBF6123611E3007C3389 /* PlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlotView.m; path = src/mac/PlotView.m; sourceTree = "<group>"; };
 		4F35EC1D1236AE6E007C3389 /* CorePlot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePlot.xcodeproj; path = "../core-plot/framework/CorePlot.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		4F8E1C12129077C200D2035F /* DatePlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePlot.h; path = src/plots/DatePlot.h; sourceTree = "<group>"; };
+		4F8E1C13129077C200D2035F /* DatePlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePlot.m; path = src/plots/DatePlot.m; sourceTree = "<group>"; };
+		4F8E1C84129083B000D2035F /* SteppedScatterPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SteppedScatterPlot.h; path = src/plots/SteppedScatterPlot.h; sourceTree = "<group>"; };
+		4F8E1C85129083B000D2035F /* SteppedScatterPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SteppedScatterPlot.m; path = src/plots/SteppedScatterPlot.m; sourceTree = "<group>"; };
+		4F8E1CC012908B0000D2035F /* AxisDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AxisDemo.h; path = src/plots/AxisDemo.h; sourceTree = "<group>"; };
+		4F8E1CC112908B0000D2035F /* AxisDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AxisDemo.m; path = src/plots/AxisDemo.m; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Plot Gallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plot Gallery.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -213,10 +222,16 @@
 		4F22FF9912342D5F006BF615 /* Plots */ = {
 			isa = PBXGroup;
 			children = (
+				4F8E1CC012908B0000D2035F /* AxisDemo.h */,
+				4F8E1CC112908B0000D2035F /* AxisDemo.m */,
 				4F22FF9A12342D7C006BF615 /* CompositePlot.h */,
 				4F22FF9B12342D7C006BF615 /* CompositePlot.m */,
+				4F8E1C12129077C200D2035F /* DatePlot.h */,
+				4F8E1C13129077C200D2035F /* DatePlot.m */,
 				4F22FF9C12342D7C006BF615 /* GradientScatterPlot.h */,
 				4F22FF9D12342D7C006BF615 /* GradientScatterPlot.m */,
+				4F8E1C84129083B000D2035F /* SteppedScatterPlot.h */,
+				4F8E1C85129083B000D2035F /* SteppedScatterPlot.m */,
 				4F22FF9E12342D7C006BF615 /* SimplePieChart.h */,
 				4F22FF9F12342D7C006BF615 /* SimplePieChart.m */,
 				4F22FFA012342D7C006BF615 /* SimpleScatterPlot.h */,
@@ -335,6 +350,9 @@
 				4F22FFB012342DB1006BF615 /* PlotItem.m in Sources */,
 				4F35EBF7123611E3007C3389 /* PlotGalleryController.m in Sources */,
 				4F35EBF8123611E3007C3389 /* PlotView.m in Sources */,
+				4F8E1C14129077C200D2035F /* DatePlot.m in Sources */,
+				4F8E1C86129083B000D2035F /* SteppedScatterPlot.m in Sources */,
+				4F8E1CC212908B0000D2035F /* AxisDemo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

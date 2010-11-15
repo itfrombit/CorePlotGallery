@@ -132,16 +132,10 @@
 {
 	// Create graph from theme
     scatterPlot = [[CPXYGraph alloc] initWithFrame:[scatterPlotView bounds]];
-    [graphs addObject:scatterPlot];
+    [self addGraph:scatterPlot toHostingView:layerHostingView];
 
     [self applyTheme:theme toGraph:scatterPlot withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
 
-#if TARGET_OS_IPHONE
-    scatterPlotView.hostedGraph = scatterPlot;
-#else
-    scatterPlotView.hostedLayer = scatterPlot;
-#endif
-    
     scatterPlot.paddingLeft = 10.0;
     scatterPlot.paddingTop = 10.0;
     scatterPlot.paddingRight = 10.0;
@@ -247,15 +241,8 @@
     }
     
     barChart = [[CPXYGraph alloc] initWithFrame:[barChartView bounds]];
-    [graphs addObject:barChart];
-
+    [self addGraph:barChart toHostingView:layerHostingView];
     [self applyTheme:theme toGraph:barChart withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
-    
-#if TARGET_OS_IPHONE
-    barChartView.hostedGraph = barChart;
-#else
-    barChartView.hostedLayer = barChart;
-#endif
     
     barChart.plotAreaFrame.masksToBorder = NO;
 
@@ -268,7 +255,6 @@
     else {
         [self setPaddingDefaultsForGraph:barChart withBounds:bounds];
     }
-
 
     CPXYPlotSpace *plotSpace = (CPXYPlotSpace *)barChart.defaultPlotSpace;
     plotSpace.yRange = [CPPlotRange plotRangeWithLocation:CPDecimalFromFloat(0.0f) length:CPDecimalFromFloat(300.0f)];
@@ -344,16 +330,9 @@
     CGRect bounds = layerHostingView.bounds;
 
     pieChart = [[CPXYGraph alloc] initWithFrame:[pieChartView bounds]];
-    [graphs addObject:pieChart];
-
+    [self addGraph:pieChart toHostingView:layerHostingView];
     [self applyTheme:theme toGraph:pieChart withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
     
-#if TARGET_OS_IPHONE
-    pieChartView.hostedGraph = pieChart;
-#else
-    pieChartView.hostedLayer = pieChart;
-#endif
-
     pieChart.plotAreaFrame.masksToBorder = NO;
 
     [self setPaddingDefaultsForGraph:pieChart withBounds:bounds];

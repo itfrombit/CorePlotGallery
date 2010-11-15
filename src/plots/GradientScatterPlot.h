@@ -11,8 +11,7 @@
 
 @interface GradientScatterPlot : PlotItem <	CPPlotSpaceDelegate,
                                             CPPlotDataSource,
-                                            CPScatterPlotDelegate,
-                                            CPBarPlotDelegate>
+                                            CPScatterPlotDelegate>
 {
     CPLayerAnnotation   *symbolTextAnnotation;
 

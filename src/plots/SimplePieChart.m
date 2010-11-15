@@ -51,16 +51,9 @@
     CGRect bounds = layerHostingView.bounds;
 
     CPGraph *graph = [[[CPXYGraph alloc] initWithFrame:bounds] autorelease];
-    [graphs addObject:graph];
-
+    [self addGraph:graph toHostingView:layerHostingView];
     [self applyTheme:theme toGraph:graph withDefault:[CPTheme themeNamed:kCPDarkGradientTheme]];
 
-#if TARGET_OS_IPHONE
-    layerHostingView.hostedGraph = graph;
-#else
-    layerHostingView.hostedLayer = graph;
-#endif
-    
     graph.title = title;
     CPTextStyle *textStyle = [CPTextStyle textStyle];
     textStyle.color = [CPColor grayColor];
@@ -115,6 +108,7 @@
     NSLog(@"Slice was selected at index %d. Value = %f", (int)index, [[plotData objectAtIndex:index] floatValue]);
 }
 
+#pragma mark -
 #pragma mark Plot Data Source Methods
 
 -(NSUInteger)numberOfRecordsForPlot:(CPPlot *)plot
