@@ -1,5 +1,11 @@
-A gallery of Core Plot examples for Mac OS X and iPad.
-iPhone support is on the todo list.
+Core Plot Gallery is now part of Core Plot.
+You can find the most recent version in the 
+examples directory of the Core Plot source
+distribution:
+http://code.google.com/p/core-plot/source/checkout
+
+
+A gallery of Core Plot examples for Mac OS X and iOS.
 
 There are currently a few generic examples in the 
 plots group of the Xcode projects, but the hope is 
